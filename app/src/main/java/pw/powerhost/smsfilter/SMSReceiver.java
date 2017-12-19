@@ -19,5 +19,7 @@ public class SMSReceiver extends BroadcastReceiver {
         if (pdus.length == 0) {
             return;
         }
+        Sms sms = Sms.fromPdus(pdus, context);
+//        Sms
     }
 }
