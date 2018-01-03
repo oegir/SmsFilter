@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">SmsFilter</string>
-    <string name="store_sms">Хранить отфильтрованные SMS</string>
-    <string name="action_settings">Настройки</string>
+    <string name="action_active_filter">Фильтр активен</string>
+    <string name="action_store_sms">Хранить отфильтрованные SMS</string>
 </resources>

@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/actio_stettings"
-        android:title="@string/action_settings" />
+        android:id="@+id/action_active_filter"
+        android:checkable="true"
+        android:title="@string/action_active_filter" />
+    <item
+        android:id="@+id/action_store_sms"
+        android:checkable="true"
+        android:title="@string/action_store_sms" />
 </menu>
