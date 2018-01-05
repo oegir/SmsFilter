@@ -20,6 +20,14 @@ public class SMSReceiver extends BroadcastReceiver {
             return;
         }
         Sms sms = Sms.fromPdus(pdus, context);
-//        Sms
+        SmsDatabase db = null;
+
+        try {
+//            db = SmsDatabase.open(context);
+        } finally {
+            if (db != null) {
+//                db.close();
+            }
+        }
     }
 }

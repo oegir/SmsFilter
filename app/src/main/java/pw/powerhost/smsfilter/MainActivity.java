@@ -16,7 +16,9 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences mSettings;
 
     /**
-     * Return string presentation of menu item identifier
+     * Get string presentation of menu item identifier
+     * @param item
+     * @return android:id attribute value
      */
     private String getMenuItemId(MenuItem item) {
         return getResources().getResourceName(item.getItemId()).split("\\/")[1];
