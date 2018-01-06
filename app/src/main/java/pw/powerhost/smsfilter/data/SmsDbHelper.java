@@ -24,23 +24,22 @@ public class SmsDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String SQL_CREATE_SMS_TABLE = "CREATE TABLE " + SmsEntry.TABLE_NAME + " (" +
-                SmsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                SmsEntry.COLUMN_DATE + " INTEGER NOT NULL," +
-                SmsEntry.COLUMN_SENDER_ID + " INTEGER NOT NULL," +
+                SmsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                SmsEntry.COLUMN_DATE + " INTEGER NOT NULL, " +
+                SmsEntry.COLUMN_SENDER_ID + " INTEGER NOT NULL, " +
                 SmsEntry.COLUMN_MESSAGE + " TEXT" +
                 ")";
         db.execSQL(SQL_CREATE_SMS_TABLE);
 
         String SQL_CREATE_SENDERS_TABLE = "CREATE TABLE " + SendersEntry.TABLE_NAME + " (" +
-                SendersEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                SendersEntry.COLUMN_NAME + " TEXT NOT NULL," +
-                SendersEntry.COLUMN_IDENTITY + " TEXT NOT NULL," +
+                SendersEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                SendersEntry.COLUMN_NAME + " TEXT NOT NULL, " +
+                SendersEntry.COLUMN_IDENTITY + " TEXT NOT NULL" +
                 ")";
         db.execSQL(SQL_CREATE_SENDERS_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 }

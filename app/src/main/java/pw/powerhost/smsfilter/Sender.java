@@ -3,7 +3,7 @@ package pw.powerhost.smsfilter;
 import android.content.Context;
 
 /**
- * Created by oegir on 17.12.17.
+ * Created by Alexey on 17.12.17.
  */
 
 public class Sender {
@@ -15,11 +15,7 @@ public class Sender {
         mContext = context;
     }
 
-    public String getmAdderss() {
+    public String getAdderss() {
         return mAdderss;
-    }
-
-    public Context getmContext() {
-        return mContext;
     }
 }

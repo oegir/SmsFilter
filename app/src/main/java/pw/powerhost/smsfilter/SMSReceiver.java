@@ -10,6 +10,7 @@ import android.os.Bundle;
  */
 
 public class SMSReceiver extends BroadcastReceiver {
+    private static final String ACTION = "android.provider.Telephony.SMS_RECEIVED";
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -20,14 +21,11 @@ public class SMSReceiver extends BroadcastReceiver {
             return;
         }
         Sms sms = Sms.fromPdus(pdus, context);
-        SmsDatabase db = null;
+        SmsDatabase sms_db = new SmsDatabase(context);
 
-        try {
-//            db = SmsDatabase.open(context);
-        } finally {
-            if (db != null) {
-//                db.close();
-            }
+        if (sms_db.isSpam(sms)) {
+            abortBroadcast();
+            sms_db.storeMessage(sms);
         }
     }
 }

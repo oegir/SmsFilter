@@ -4,14 +4,22 @@ import android.content.Context;
 import android.telephony.SmsMessage;
 
 /**
- * Created by oegir on 17.12.17.
+ * Created by Alexey on 17.12.17.
  */
 
 public class Sms {
-    private  String mBody;
+    private String mBody = "";
+
     private  Sender mSender;
     private long mTimestamp;
 
+    /**
+     * Parse sms message
+     *
+     * @param pdus
+     * @param context
+     * @return parsed sms
+     */
     public static Sms fromPdus(Object[] pdus, Context context) {
         Sms result = new Sms();
 
@@ -24,5 +32,9 @@ public class Sms {
         result.mTimestamp = first.getTimestampMillis();
 
         return result;
+    }
+
+    public Sender getSender() {
+        return mSender;
     }
 }
