@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:id="@+id/action_active_filter"
@@ -10,4 +9,7 @@
         android:id="@+id/action_store_sms"
         android:checkable="true"
         android:title="@string/action_store_sms" />
+    <item
+        android:id="@+id/action_blocked_view"
+        android:title="@string/title_activity_senders" />
 </menu>
