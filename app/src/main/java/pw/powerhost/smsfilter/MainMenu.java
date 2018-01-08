@@ -99,6 +99,7 @@ public class MainMenu {
 
             case "SendersActivity":
                 menu.findItem(R.id.action_blocked_view).setVisible(false);
+                break;
         }
     }
 }
