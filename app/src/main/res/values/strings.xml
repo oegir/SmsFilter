@@ -3,4 +3,5 @@
     <string name="action_active_filter">Фильтр активен</string>
     <string name="action_store_sms">Хранить отфильтрованные SMS</string>
     <string name="title_activity_senders">Заблокированные</string>
+    <string name="title_activity_главная">Главная</string>
 </resources>

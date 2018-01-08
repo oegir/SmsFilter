@@ -1,7 +1,5 @@
 package pw.powerhost.smsfilter;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,24 +11,7 @@ import android.view.View;
 
 public class SendersActivity extends AppCompatActivity {
 
-    /* TODO: Вынести получение настроек в общий класс*/
-    /**
-     * Settings file name
-     */
-    static final String APP_PREFERENCES = "appsettings";
-    private SharedPreferences mSettings;
-
-    /* TODO: Вынести создание и обработку мению в отдельный класс */
-
-    /**
-     * Get string presentation of menu item identifier
-     *
-     * @param item
-     * @return android:id attribute value
-     */
-    private String getMenuItemId(MenuItem item) {
-        return getResources().getResourceName(item.getItemId()).split("\\/")[1];
-    }
+    MainMenu mMainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,22 +29,17 @@ public class SendersActivity extends AppCompatActivity {
             }
         });
         // Load application preferences
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        mMainMenu = new MainMenu(this);
     }
 
-    /* TODO: Вынести создание и обработку мению в отдельный класс */
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         // Restore menu items state from settings
-        for (int i = 0; i < menu.size(); i++) {
-            MenuItem item = menu.getItem(i);
-            // Check only checkable items
-            if (item.isCheckable()) {
-                Boolean isChecked = mSettings.getBoolean(getMenuItemId(item), false);
-                item.setChecked(isChecked);
-            }
-        }
+        mMainMenu.setItems(menu);
         return true;
     }
 
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return mMainMenu.processItem(item);
+    }
 }

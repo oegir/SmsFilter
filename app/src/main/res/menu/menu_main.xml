@@ -10,6 +10,9 @@
         android:checkable="true"
         android:title="@string/action_store_sms" />
     <item
+        android:id="@+id/action_main_view"
+        android:title="@string/title_activity_главная" />
+    <item
         android:id="@+id/action_blocked_view"
         android:title="@string/title_activity_senders" />
 </menu>
