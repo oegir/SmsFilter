@@ -30,7 +30,8 @@
         <activity
             android:name=".SendersActivity"
             android:label="@string/title_activity_senders"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".NewSenderActivity"></activity>
     </application>
 
 </manifest>

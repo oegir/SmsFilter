@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-import pw.powerhost.smsfilter.data.SmsContract;
 import pw.powerhost.smsfilter.data.SmsContract.SendersEntry;
 import pw.powerhost.smsfilter.data.SmsDbHelper;
 
@@ -15,28 +14,33 @@ import pw.powerhost.smsfilter.data.SmsDbHelper;
 public class SmsDatabase {
     private SmsDbHelper mDbHelper;
 
+    /**
+     * Constructor
+     *
+     * @param context
+     */
     public SmsDatabase(Context context) {
         mDbHelper = new SmsDbHelper(context);
     }
 
     /**
-     * Check if message is spam
-     *
-     * @param sms message
-     * @return true if spam
+     * get db-cursor for retrieve data about blocked senders
+     * @return
      */
-    public boolean isSpam(Sms sms) {
+    public Cursor getSendersCursor() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String[] columns = {SendersEntry._ID, SendersEntry.COLUMN_NAME, SendersEntry.COLUMN_IDENTITY};
 
-        String[] columns = {SmsContract.SendersEntry._ID};
-        String selection = SendersEntry.COLUMN_IDENTITY + " = ?";
-        String[] selectionArgs = {sms.getSender().getAdderss()};
+        return db.query(SendersEntry.TABLE_NAME, columns, null, null, null, null, null);
+    }
 
-        Cursor cursor = db.query(SendersEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-        boolean result = cursor.getCount() > 0;
-        cursor.close();
+    /**
+     * Store information to data base about blocked sms
+     *
+     * @param sms
+     */
+    public void save(Sms sms) {
 
-        return result;
     }
 
     /**
@@ -47,9 +51,5 @@ public class SmsDatabase {
     public void storeMessage(Sms sms) {
 //        if (!Preferences.get(mContext).storeSms()) return;
 //        int maxCount = Preferences.get()
-    }
-
-    public void save(Sms sms) {
-
     }
 }

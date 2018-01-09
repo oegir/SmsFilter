@@ -20,7 +20,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_senders" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -30,5 +29,14 @@
         android:layout_margin="@dimen/fab_margin"
         app:backgroundTint="@android:color/background_light"
         app:srcCompat="@android:drawable/ic_input_add" />
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="pw.powerhost.smsfilter.SingleListFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@android:dimen/app_icon_size"
+        tools:layout="@android:layout/list_content"
+        tools:layout_marginTop="@android:dimen/notification_large_icon_height"></fragment>
 
 </android.support.design.widget.CoordinatorLayout>

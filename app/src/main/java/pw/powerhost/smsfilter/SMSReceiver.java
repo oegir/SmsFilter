@@ -23,7 +23,7 @@ public class SMSReceiver extends BroadcastReceiver {
         Sms sms = Sms.fromPdus(pdus, context);
         SmsDatabase sms_db = new SmsDatabase(context);
 
-        if (sms_db.isSpam(sms)) {
+        if (sms.isSpam()) {
             abortBroadcast();
             sms_db.storeMessage(sms);
         }

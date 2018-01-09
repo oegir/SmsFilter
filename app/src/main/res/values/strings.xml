@@ -4,4 +4,7 @@
     <string name="action_store_sms">Хранить отфильтрованные SMS</string>
     <string name="title_activity_senders">Заблокированные</string>
     <string name="title_activity_главная">Главная</string>
+    <string name="button_add">Добавить</string>
+    <string name="editText_name">Имя</string>
+    <string name="editText_phone">Телефон</string>
 </resources>

@@ -28,13 +28,18 @@ public class Sms {
             result.mBody += smsMessage.getMessageBody();
         }
         SmsMessage first = SmsMessage.createFromPdu((byte[]) pdus[0]);
-        result.mSender = new Sender(first.getOriginatingAddress(), context);
+        result.mSender = new Sender(first.getDisplayOriginatingAddress(), context);
         result.mTimestamp = first.getTimestampMillis();
 
         return result;
     }
 
-    public Sender getSender() {
-        return mSender;
+    /**
+     * Check if message is spam
+     *
+     * @return true if spam
+     */
+    public boolean isSpam() {
+        return mSender.isBlocked();
     }
 }
