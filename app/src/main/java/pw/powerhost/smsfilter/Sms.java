@@ -7,11 +7,12 @@ import android.telephony.SmsMessage;
  * Created by Alexey on 17.12.17.
  */
 
-public class Sms {
+class Sms {
     private String mBody = "";
 
     private  Sender mSender;
     private long mTimestamp;
+    private long mId = -1;
 
     /**
      * Parse sms message
@@ -20,7 +21,7 @@ public class Sms {
      * @param context
      * @return parsed sms
      */
-    public static Sms fromPdus(Object[] pdus, Context context) {
+    static Sms fromPdus(Object[] pdus, Context context) {
         Sms result = new Sms();
 
         for (int i = 0; i < pdus.length; i++) {
@@ -39,7 +40,16 @@ public class Sms {
      *
      * @return true if spam
      */
-    public boolean isSpam() {
+    boolean isSpam() {
         return mSender.isBlocked();
+    }
+
+    void store() {
+
+        if (mId < 0) {
+            // TODO: Сохранение sms
+        } else {
+            // TODO: Обновление sms
+        }
     }
 }

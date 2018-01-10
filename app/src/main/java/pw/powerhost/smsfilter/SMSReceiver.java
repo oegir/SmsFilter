@@ -15,17 +15,21 @@ public class SMSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
-        Object[] pdus = (Object[]) bundle.get("pdus");
 
-        if (pdus.length == 0) {
+        try {
+            Object[] pdus = (Object[]) bundle.get("pdus");
+
+            if (pdus.length == 0) {
+                return;
+            }
+            Sms sms = Sms.fromPdus(pdus, context);
+
+            if (sms.isSpam()) {
+                abortBroadcast();
+                sms.store();
+            }
+        } catch (Exception e) {
             return;
-        }
-        Sms sms = Sms.fromPdus(pdus, context);
-        SmsDatabase sms_db = new SmsDatabase(context);
-
-        if (sms.isSpam()) {
-            abortBroadcast();
-            sms_db.storeMessage(sms);
         }
     }
 }

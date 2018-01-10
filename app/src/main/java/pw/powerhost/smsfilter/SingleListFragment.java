@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 
 import pw.powerhost.smsfilter.data.SmsContract.SendersEntry;
@@ -15,6 +14,7 @@ import pw.powerhost.smsfilter.data.SmsContract.SendersEntry;
 
 public class SingleListFragment extends ListFragment {
     Cursor mCursor;
+    SimpleCursorAdapter mAdapter;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -22,18 +22,23 @@ public class SingleListFragment extends ListFragment {
 
         String[] from = new String[]{SendersEntry.COLUMN_NAME, SendersEntry.COLUMN_IDENTITY};
         int[] to = new int[]{android.R.id.text1, android.R.id.text2};
+
         Activity activity = getActivity();
         mCursor = (new SmsDatabase(activity)).getSendersCursor();
 
-        ListAdapter adapter = new SimpleCursorAdapter(activity, android.R.layout.simple_expandable_list_item_2, mCursor, from, to, 0);
-        setListAdapter(adapter);
+        mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_expandable_list_item_2, mCursor, from, to, 0);
+        setListAdapter(mAdapter);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        // TODO: Сделать обновление ListView
-        int a = 0;
+        // Refresh senders list
+        Activity activity = getActivity();
+        Cursor newCursor = (new SmsDatabase(activity)).getSendersCursor();
+        mAdapter.changeCursor(newCursor);
+        mCursor.close();
+        mCursor = newCursor;
     }
 
     @Override
