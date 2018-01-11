@@ -10,31 +10,29 @@ import pw.powerhost.smsfilter.data.SmsDbHelper;
 
 /**
  * Created by Alexey on 17.12.17.
+ *
  */
 
 public class Sender {
-    private long mId;
+    private long mId = -1;
     private String mName;
     private String mIdentity;
     private SmsDbHelper mDbHelper;
 
     /**
-     * Constructor
-     *
-     * @param identity
-     * @param context
+     * 2-params constructor
+     * @param context application context
      */
-    Sender(String identity, Context context) {
-        mIdentity = identity;
+    Sender(Context context) {
         mDbHelper = new SmsDbHelper(context);
     }
 
     /**
-     * Constructor
+     * 3-params constructor
      *
-     * @param name
-     * @param identity
-     * @param context
+     * @param name human readable string
+     * @param identity phone number or etc.
+     * @param context application context
      */
     Sender(String name, String identity, Context context) {
         mIdentity = identity;
@@ -43,19 +41,19 @@ public class Sender {
     }
 
     /**
-     * Get address identity
-     * @return
+     * Getter for id
+     * @return sender id in data base
      */
-    public String getAdderss() {
-        return mIdentity;
+    long getId() {
+        return mId;
     }
 
     /**
      * Check if sender store in data base for blocking
      *
-     * @return
+     * @return blocking sign
      */
-    public boolean isBlocked() {
+    boolean isBlocked() {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
         String[] columns = {SendersEntry._ID};
@@ -70,13 +68,28 @@ public class Sender {
     }
 
     /**
+     * Find sender by phone number
+     *
+     * @param identity search parameter
+     */
+    void findOne(String identity) {
+        SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        // TODO: Доделать загрузку полей класса из базы
+    }
+
+    /**
      * Store user in data base
      */
-    public void store() {
+    void store() {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SendersEntry.COLUMN_IDENTITY, mIdentity);
         values.put(SendersEntry.COLUMN_NAME, mName);
-        mId = db.insert(SendersEntry.TABLE_NAME, null, values);
+
+        if (mId < 0) {
+            mId = db.insert(SendersEntry.TABLE_NAME, null, values);
+        } else {
+            db.update(SendersEntry.TABLE_NAME, values, SendersEntry._ID + " = ?", new String[]{Long.toString(mId)});
+        }
     }
 }
