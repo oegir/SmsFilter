@@ -74,6 +74,10 @@ public class Sender {
      */
     void findOne(String identity) {
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
+        String[] projection = {SendersEntry._ID, SendersEntry.COLUMN_NAME};
+        String selection = SendersEntry.COLUMN_IDENTITY + " = ?";
+        String[] selectionArgs = {identity};
+        db.query(SendersEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
         // TODO: Доделать загрузку полей класса из базы
     }
 
