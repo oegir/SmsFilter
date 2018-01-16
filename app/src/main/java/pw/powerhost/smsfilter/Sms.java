@@ -2,8 +2,8 @@ package pw.powerhost.smsfilter;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.telephony.SmsMessage;
 
 import pw.powerhost.smsfilter.data.SmsContract.SmsEntry;
@@ -15,11 +15,11 @@ import pw.powerhost.smsfilter.data.SmsDbHelper;
  */
 
 class Sms {
+    private static SmsDbHelper mDbHelper;
+    private Context mContext;
     private String mBody = "";
     private  Sender mSender;
     private long mTimestamp;
-    private long mId = -1;
-    private SQLiteOpenHelper mDbHelper;
 
     /**
      * Constructor
@@ -27,7 +27,7 @@ class Sms {
      * @param context application context
      */
     Sms(Context context) {
-        mDbHelper = new SmsDbHelper(context);
+        mContext = context;
     }
 
     /**
@@ -53,6 +53,32 @@ class Sms {
     }
 
     /**
+     * get db-cursor for retrieve data about blocked sms
+     *
+     * @return
+     */
+    static Cursor getSendersCursor(Context context) {
+        SQLiteDatabase db = getDbHelper(context).getReadableDatabase();
+        String[] columns = {SmsEntry._ID, SmsEntry.COLUMN_SENDER_ID, SmsEntry.COLUMN_DATE, SmsEntry.COLUMN_MESSAGE};
+
+        return db.query(SmsEntry.TABLE_NAME, columns, null, null, null, null, null);
+    }
+
+    /**
+     * Getter for mDbHelper
+     *
+     * @param context application context
+     * @return helper for db queries
+     */
+    static SmsDbHelper getDbHelper(Context context) {
+
+        if (mDbHelper == null) {
+            mDbHelper = new SmsDbHelper(context);
+        }
+        return mDbHelper;
+    }
+
+    /**
      * Check if message is spam
      *
      * @return true if spam
@@ -65,16 +91,11 @@ class Sms {
      * Store sms in data base
      */
     void store() {
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        SQLiteDatabase db = getDbHelper(mContext).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SmsEntry.COLUMN_DATE, Long.toString(mTimestamp));
         values.put(SmsEntry.COLUMN_MESSAGE, mBody);
         values.put(SmsEntry.COLUMN_SENDER_ID, mSender.getId());
-
-        if (mId < 0) {
-            // TODO: Сохранение sms
-        } else {
-            // TODO: Обновление sms
-        }
+        db.insert(SmsEntry.TABLE_NAME, null, values);
     }
 }

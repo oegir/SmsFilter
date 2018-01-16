@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="pw.powerhost.smsfilter.SingleListFragment"
+        android:name="pw.powerhost.smsfilter.SenderListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@android:dimen/app_icon_size"

@@ -1,6 +1,5 @@
 package pw.powerhost.smsfilter;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -12,7 +11,7 @@ import pw.powerhost.smsfilter.data.SmsContract.SendersEntry;
  * Created by Alexey on 09.01.2018.
  */
 
-public class SingleListFragment extends ListFragment {
+public class SenderListFragment extends ListFragment {
     Cursor mCursor;
     SimpleCursorAdapter mAdapter;
 
@@ -22,10 +21,7 @@ public class SingleListFragment extends ListFragment {
 
         String[] from = new String[]{SendersEntry.COLUMN_NAME, SendersEntry.COLUMN_IDENTITY};
         int[] to = new int[]{android.R.id.text1, android.R.id.text2};
-
-        Activity activity = getActivity();
-        mCursor = (new SmsDatabase(activity)).getSendersCursor();
-
+        mCursor = Sender.getSendersCursor(getContext());
         mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_expandable_list_item_2, mCursor, from, to, 0);
         setListAdapter(mAdapter);
     }
@@ -34,8 +30,7 @@ public class SingleListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         // Refresh senders list
-        Activity activity = getActivity();
-        Cursor newCursor = (new SmsDatabase(activity)).getSendersCursor();
+        Cursor newCursor = Sender.getSendersCursor(getContext());
         mAdapter.changeCursor(newCursor);
         mCursor.close();
         mCursor = newCursor;
