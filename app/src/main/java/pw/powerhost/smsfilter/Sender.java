@@ -106,10 +106,13 @@ public class Sender {
         String[] selectionArgs = {identity};
         Cursor cursor = db.query(SendersEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
 
+        mIdentity = identity;
         if ((cursor != null) && cursor.moveToFirst()) {
             mId = cursor.getLong(cursor.getColumnIndex(SendersEntry._ID));
             mName = cursor.getString(cursor.getColumnIndex(SendersEntry.COLUMN_NAME));
-            mIdentity = identity;
+        } else {
+            mId = -1;
+            mName = mIdentity;
         }
     }
 

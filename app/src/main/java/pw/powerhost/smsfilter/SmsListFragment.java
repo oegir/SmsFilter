@@ -22,7 +22,7 @@ public class SmsListFragment extends ListFragment {
         String[] from = new String[]{SmsEntry.COLUMN_DATE, SmsEntry.COLUMN_MESSAGE};
         int[] to = new int[]{android.R.id.text1, android.R.id.text2};
 
-        mCursor = Sms.getSendersCursor(getContext());
+        mCursor = Sms.getSmsCursor(getContext());
         mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_expandable_list_item_2, mCursor, from, to, 0);
         setListAdapter(mAdapter);
     }
@@ -31,7 +31,7 @@ public class SmsListFragment extends ListFragment {
     public void onResume() {
         super.onResume();
         // Refresh senders list
-        Cursor newCursor = Sender.getSendersCursor(getContext());
+        Cursor newCursor = Sms.getSmsCursor(getContext());
         mAdapter.changeCursor(newCursor);
         mCursor.close();
         mCursor = newCursor;

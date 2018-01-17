@@ -57,7 +57,7 @@ class Sms {
      *
      * @return
      */
-    static Cursor getSendersCursor(Context context) {
+    static Cursor getSmsCursor(Context context) {
         SQLiteDatabase db = getDbHelper(context).getReadableDatabase();
         String[] columns = {SmsEntry._ID, SmsEntry.COLUMN_SENDER_ID, SmsEntry.COLUMN_DATE, SmsEntry.COLUMN_MESSAGE};
 
