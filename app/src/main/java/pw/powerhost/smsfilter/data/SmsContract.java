@@ -17,6 +17,7 @@ public final class SmsContract {
         public static final String COLUMN_DATE = "date";
         public static final String COLUMN_SENDER_ID = "sender_id";
         public static final String COLUMN_MESSAGE = "message";
+        public static final String COLUMN_DATE_TXT = "date_txt";
     }
 
     public static final class SendersEntry implements BaseColumns {

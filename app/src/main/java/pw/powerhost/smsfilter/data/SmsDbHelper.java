@@ -14,7 +14,7 @@ import pw.powerhost.smsfilter.data.SmsContract.SmsEntry;
 public class SmsDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "smsfilter.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 6;
 
     public SmsDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -40,5 +40,11 @@ public class SmsDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        if (oldVersion < 6) {
+            String SQL_UPDATE_SMS_TABLE = "ALTER TABLE `" + SmsEntry.TABLE_NAME + "` ADD COLUMN `" + SmsEntry.COLUMN_DATE_TXT + "` TEXT;";
+            db.execSQL(SQL_UPDATE_SMS_TABLE);
+        }
+
     }
 }
