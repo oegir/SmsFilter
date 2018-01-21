@@ -6,6 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.telephony.SmsMessage;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import pw.powerhost.smsfilter.data.SmsContract.SendersEntry;
 import pw.powerhost.smsfilter.data.SmsContract.SmsEntry;
 import pw.powerhost.smsfilter.data.SmsDbHelper;
 
@@ -15,11 +19,13 @@ import pw.powerhost.smsfilter.data.SmsDbHelper;
  */
 
 class Sms {
+    public static final String FIELD_DATE = "nameDate";
+
     private static SmsDbHelper mDbHelper;
     private Context mContext;
     private String mBody = "";
     private  Sender mSender;
-    private long mTimestamp;
+    private String mDate;
 
     /**
      * Constructor
@@ -47,7 +53,10 @@ class Sms {
         SmsMessage first = SmsMessage.createFromPdu((byte[]) pdus[0]);
         result.mSender = new Sender(context);
         result.mSender.findOne(first.getDisplayOriginatingAddress());
-        result.mTimestamp = first.getTimestampMillis();
+
+        Date date = new Date(first.getTimestampMillis());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd.MM HH:mm");
+        result.mDate = dateFormat.format(date);
 
         return result;
     }
@@ -59,9 +68,14 @@ class Sms {
      */
     static Cursor getSmsCursor(Context context) {
         SQLiteDatabase db = getDbHelper(context).getReadableDatabase();
-        String[] columns = {SmsEntry._ID, SmsEntry.COLUMN_SENDER_ID, SmsEntry.COLUMN_DATE, SmsEntry.COLUMN_MESSAGE};
+        String query = "SELECT " +
+                SmsEntry.TABLE_NAME + "." + SmsEntry._ID + "," +
+                SmsEntry.COLUMN_DATE + " || \" \" || " + SendersEntry.COLUMN_NAME + " AS " + FIELD_DATE + "," +
+                SmsEntry.COLUMN_MESSAGE +
+            " FROM " +
+                SmsEntry.TABLE_NAME + " LEFT JOIN " + SendersEntry.TABLE_NAME + " ON " + SmsEntry.TABLE_NAME + "." + SmsEntry.COLUMN_SENDER_ID + " = " + SendersEntry.TABLE_NAME + "." + SendersEntry._ID;
 
-        return db.query(SmsEntry.TABLE_NAME, columns, null, null, null, null, null);
+        return db.rawQuery(query, null);
     }
 
     /**
@@ -93,7 +107,7 @@ class Sms {
     void store() {
         SQLiteDatabase db = getDbHelper(mContext).getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(SmsEntry.COLUMN_DATE, Long.toString(mTimestamp));
+        values.put(SmsEntry.COLUMN_DATE, mDate);
         values.put(SmsEntry.COLUMN_MESSAGE, mBody);
         values.put(SmsEntry.COLUMN_SENDER_ID, mSender.getId());
         db.insert(SmsEntry.TABLE_NAME, null, values);
