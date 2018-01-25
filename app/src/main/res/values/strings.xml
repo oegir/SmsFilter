@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">SmsFilter</string>
+    <string name="action_active_filter">Фильтр активен</string>
+    <string name="action_store_sms">Хранить отфильтрованные SMS</string>
+    <string name="title_activity_main">Главная</string>
+    <string name="title_activity_senders">Заблокированные отправители</string>
+    <string name="title_activity_sms">Заблокированные SMS</string>
+    <string name="button_add">Добавить</string>
+    <string name="button_save">Сохранить</string>
+    <string name="button_cancel">Отмена</string>
+    <string name="button_delete">Удалить</string>
+    <string name="button_close">Закрыть</string>
+    <string name="editText_name">Имя</string>
+    <string name="editText_phone">Телефон</string>
+    <string name="editText_date">Дата:</string>
+    <string name="editText_from">От:</string>
+    <string name="editText_Message">Сообщение:</string>
 </resources>
