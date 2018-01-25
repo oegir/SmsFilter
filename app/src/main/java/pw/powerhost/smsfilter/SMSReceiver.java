@@ -3,6 +3,7 @@ package pw.powerhost.smsfilter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 
 /**
@@ -14,6 +15,12 @@ public class SMSReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Resources resources = context.getResources();
+
+        if (!Settings.getInstance(context).getBoolean(resources.getResourceEntryName(R.id.action_active_filter), false)) {
+            return;
+        }
+
         Bundle bundle = intent.getExtras();
 
         try {
@@ -26,7 +33,10 @@ public class SMSReceiver extends BroadcastReceiver {
 
             if (sms.isSpam()) {
                 abortBroadcast();
-                sms.store();
+
+                if (Settings.getInstance(context).getBoolean(resources.getResourceEntryName(R.id.action_store_sms), false)) {
+                    sms.store();
+                }
             }
         } catch (Exception e) {
             return;

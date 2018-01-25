@@ -2,6 +2,7 @@ package pw.powerhost.smsfilter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -23,25 +24,16 @@ public class MainMenu {
     }
 
     /**
-     * Get string presentation of menu item identifier
-     *
-     * @param item
-     * @return android:id attribute value
-     */
-    private String getMenuItemId(MenuItem item) {
-        return mActivity.getResources().getResourceName(item.getItemId()).split("\\/")[1];
-    }
-
-    /**
      * Reverse checked item state
      *
      * @param item
      * @return
      */
     private boolean reverseChecked(MenuItem item) {
+        Resources resources = mActivity.getResources();
         item.setChecked(!item.isChecked());
         // Save menu item new state
-        Settings.getInstance(mActivity).putBoolean(getMenuItemId(item), item.isChecked());
+        Settings.getInstance(mActivity).putBoolean(resources.getResourceEntryName(item.getItemId()), item.isChecked());
 
         return true;
     }
@@ -82,12 +74,13 @@ public class MainMenu {
      * @param menu
      */
     public void setItems(Menu menu) {
+        Resources resources = mActivity.getResources();
 
         for (int i = 0; i < menu.size(); i++) {
             MenuItem item = menu.getItem(i);
             // Check only checkable items
             if (item.isCheckable()) {
-                Boolean isChecked = Settings.getInstance(mActivity).getBoolean(getMenuItemId(item), false);
+                Boolean isChecked = Settings.getInstance(mActivity).getBoolean(resources.getResourceEntryName(item.getItemId()), false);
                 item.setChecked(isChecked);
             }
         }

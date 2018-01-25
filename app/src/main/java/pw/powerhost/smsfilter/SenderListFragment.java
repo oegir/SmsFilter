@@ -1,8 +1,11 @@
 package pw.powerhost.smsfilter;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.View;
+import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
 import pw.powerhost.smsfilter.data.SmsContract.SendersEntry;
@@ -24,6 +27,13 @@ public class SenderListFragment extends ListFragment {
         mCursor = Sender.getSendersCursor(getContext());
         mAdapter = new SimpleCursorAdapter(getActivity(), android.R.layout.simple_expandable_list_item_2, mCursor, from, to, 0);
         setListAdapter(mAdapter);
+    }
+
+    @Override
+    public void onListItemClick(ListView listView, View view, int position, long id) {
+        Intent intent = new Intent(getActivity(), NewSenderActivity.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
     }
 
     @Override

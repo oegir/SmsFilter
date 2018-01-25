@@ -25,6 +25,10 @@ public class Sender {
         return mName;
     }
 
+    String getIdentity() {
+        return mIdentity;
+    }
+
     /**
      * 2-params constructor
      * @param context application context

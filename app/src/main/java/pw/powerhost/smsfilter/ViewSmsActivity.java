@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 
 public class ViewSmsActivity extends AppCompatActivity {
-    private long mId;
     private Sms mSms;
 
     @Override
@@ -17,14 +16,19 @@ public class ViewSmsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_sms);
         // Get Sms data
         Intent intent = getIntent();
-        mId = intent.getLongExtra("id", -1);
+        long id = intent.getLongExtra("id", -1);
         // Get sms data
-        if (mId < 0) {
+        if (id < 0) {
             finish();;
             return;
         }
         mSms = new Sms(ViewSmsActivity.this);
-        mSms.findOne(mId);
+        try {
+            mSms.findOne(id);
+        } catch (Exception e) {
+            finish();;
+            return;
+        }
         ((TextView)findViewById(R.id.date_textView)).setText(mSms.getDate());
         ((TextView)findViewById(R.id.from_textView)).setText(mSms.getSender().getName());
         ((TextView)findViewById(R.id.body_textView)).setText(mSms.getBody());
