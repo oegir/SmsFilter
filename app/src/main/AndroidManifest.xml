@@ -31,7 +31,7 @@
             android:label="@string/title_activity_senders"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".NewSenderActivity"></activity>
-        <activity android:name=".VewSmsActivity"></activity>
+        <activity android:name=".ViewSmsActivity"></activity>
     </application>
 
 </manifest>

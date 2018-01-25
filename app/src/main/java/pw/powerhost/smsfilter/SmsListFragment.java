@@ -32,7 +32,7 @@ public class SmsListFragment extends ListFragment {
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
-        Intent intent = new Intent(getActivity(), VewSmsActivity.class);
+        Intent intent = new Intent(getActivity(), ViewSmsActivity.class);
         intent.putExtra("id", id);
         startActivity(intent);
     }

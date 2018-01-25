@@ -29,15 +29,6 @@ public class NewSenderActivity extends AppCompatActivity {
         String identity = ((EditText) this.findViewById(R.id.editText_identity)).getText().toString();
         Sender sender = new Sender(name, identity, this);
         sender.store();
-        // Update ListView in previous activity
-        ActivityManager activityManager = (ActivityManager) this.getSystemService(this.ACTIVITY_SERVICE);
-        List<RunningTaskInfo> runningTaskInfoList = activityManager.getRunningTasks(10);
-        Iterator<RunningTaskInfo> runningTaskInfoIterator = runningTaskInfoList.iterator();
-
-        while (runningTaskInfoIterator.hasNext()) {
-            RunningTaskInfo runningTaskInfo = runningTaskInfoIterator.next();
-            int id = runningTaskInfo.id;
-        }
         finish();
     }
 }

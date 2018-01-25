@@ -26,7 +26,8 @@ public class SmsDbHelper extends SQLiteOpenHelper {
                 SmsEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 SmsEntry.COLUMN_DATE + " TEXT NOT NULL, " +
                 SmsEntry.COLUMN_SENDER_ID + " INTEGER NOT NULL, " +
-                SmsEntry.COLUMN_MESSAGE + " TEXT" +
+                SmsEntry.COLUMN_MESSAGE + " TEXT," +
+                "FOREIGN KEY(`" + SmsEntry.COLUMN_SENDER_ID + "`) REFERENCES " + SendersEntry.TABLE_NAME + " ( `" + SendersEntry._ID + "` ) ON DELETE CASCADE" +
                 ")";
         db.execSQL(SQL_CREATE_SMS_TABLE);
 
@@ -36,6 +37,15 @@ public class SmsDbHelper extends SQLiteOpenHelper {
                 SendersEntry.COLUMN_IDENTITY + " TEXT NOT NULL" +
                 ")";
         db.execSQL(SQL_CREATE_SENDERS_TABLE);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        super.onOpen(db);
+
+        if (!db.isReadOnly()) {
+            db.execSQL("PRAGMA foreign_key = 1");
+        }
     }
 
     @Override

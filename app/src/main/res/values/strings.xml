@@ -7,6 +7,10 @@
     <string name="title_activity_sms">Заблокированные SMS</string>
     <string name="button_add">Добавить</string>
     <string name="button_delete">Удалить</string>
+    <string name="button_close">Закрыть</string>
     <string name="editText_name">Имя</string>
     <string name="editText_phone">Телефон</string>
+    <string name="editText_date">Дата:</string>
+    <string name="editText_from">От:</string>
+    <string name="editText_Message">Сообщение:</string>
 </resources>

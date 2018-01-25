@@ -23,9 +23,22 @@ class Sms {
 
     private static SmsDbHelper mDbHelper;
     private Context mContext;
+    private long mId;
     private String mBody = "";
     private  Sender mSender;
     private String mDate;
+
+    String getBody() {
+        return mBody;
+    }
+
+    Sender getSender() {
+        return mSender;
+    }
+
+    String getDate() {
+        return mDate;
+    }
 
     /**
      * Constructor
@@ -90,6 +103,39 @@ class Sms {
             mDbHelper = new SmsDbHelper(context);
         }
         return mDbHelper;
+    }
+
+    /**
+     * Delete a message
+     */
+    void delete() {
+        SQLiteDatabase db = getDbHelper(mContext).getWritableDatabase();
+        String[] whereArgs = {String.valueOf(mId)};
+        db.delete(SmsEntry.TABLE_NAME, SmsEntry._ID + " = ?", whereArgs);
+    }
+
+    /**
+     * Find Sms by id
+     * @param id
+     */
+    void findOne(long id) {
+        String[] projection = {SmsEntry.COLUMN_SENDER_ID, SmsEntry.COLUMN_DATE, SmsEntry.COLUMN_MESSAGE};
+        String selection =  SmsEntry._ID + " = ?";
+        String [] selectionArgs = {String.valueOf(id)};
+
+        SQLiteDatabase db = getDbHelper(mContext).getReadableDatabase();
+        Cursor cursor = db.query(SmsEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        try {
+            cursor.moveToFirst();
+
+            mId = id;
+            mDate = cursor.getString(cursor.getColumnIndex(SmsEntry.COLUMN_DATE));
+            mSender = new Sender(mContext);
+            mSender.findOne(cursor.getLong(cursor.getColumnIndex(SmsEntry.COLUMN_SENDER_ID)));
+            mBody = cursor.getString(cursor.getColumnIndex(SmsEntry.COLUMN_MESSAGE));
+        } finally {
+            cursor.close();
+        }
     }
 
     /**

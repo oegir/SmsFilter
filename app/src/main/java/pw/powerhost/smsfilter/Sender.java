@@ -17,8 +17,13 @@ public class Sender {
     private static SmsDbHelper mDbHelper;
     private Context mContext;
     private long mId = -1;
+
     private String mName;
     private String mIdentity;
+
+    String getName() {
+        return mName;
+    }
 
     /**
      * 2-params constructor
@@ -113,6 +118,30 @@ public class Sender {
         } else {
             mId = -1;
             mName = mIdentity;
+        }
+    }
+
+    /**
+     * Find sender by record id
+     *
+     * @param id search parameter
+     */
+    void findOne(long id) {
+        SQLiteDatabase db = getDbHelper(mContext).getReadableDatabase();
+        String[] projection = {SendersEntry.COLUMN_IDENTITY, SendersEntry.COLUMN_NAME};
+        String selection = SendersEntry._ID + " = ?";
+        String[] selectionArgs = {String.valueOf(id)};
+        Cursor cursor = db.query(SendersEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+
+        try {
+            cursor.moveToFirst();
+            mId = id;
+            mIdentity = cursor.getString(cursor.getColumnIndex(SendersEntry.COLUMN_IDENTITY));
+            mName = cursor.getString(cursor.getColumnIndex(SendersEntry.COLUMN_NAME));
+        } catch (Exception e){
+            mId = -1;
+        } finally {
+            cursor.close();
         }
     }
 
