@@ -6,6 +6,8 @@
     <string name="title_activity_senders">Заблокированные отправители</string>
     <string name="title_activity_sms">Заблокированные SMS</string>
     <string name="button_add">Добавить</string>
+    <string name="button_save">Сохранить</string>
+    <string name="button_cancel">Отмена</string>
     <string name="button_delete">Удалить</string>
     <string name="button_close">Закрыть</string>
     <string name="editText_name">Имя</string>

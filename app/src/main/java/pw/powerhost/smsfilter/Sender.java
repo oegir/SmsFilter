@@ -16,17 +16,29 @@ import pw.powerhost.smsfilter.data.SmsDbHelper;
 public class Sender {
     private static SmsDbHelper mDbHelper;
     private Context mContext;
-    private long mId = -1;
 
+    private long mId = -1;
     private String mName;
     private String mIdentity;
+
+    long getId() {
+        return mId;
+    }
+
+    String getIdentity() {
+        return mIdentity;
+    }
 
     String getName() {
         return mName;
     }
 
-    String getIdentity() {
-        return mIdentity;
+    public void setIdentity(String identity) {
+        this.mIdentity = identity;
+    }
+
+    public void setName(String name) {
+        this.mName = name;
     }
 
     /**
@@ -34,19 +46,6 @@ public class Sender {
      * @param context application context
      */
     Sender(Context context) {
-        mContext = context;
-    }
-
-    /**
-     * 3-params constructor
-     *
-     * @param name human readable string
-     * @param identity phone number or etc.
-     * @param context application context
-     */
-    Sender(String name, String identity, Context context) {
-        mIdentity = identity;
-        mName = name;
         mContext = context;
     }
 
@@ -77,30 +76,12 @@ public class Sender {
     }
 
     /**
-     * Getter for id
-     * @return sender id in data base
+     * Delete sender from database
      */
-    long getId() {
-        return mId;
-    }
-
-    /**
-     * Check if sender store in data base for blocking
-     *
-     * @return blocking sign
-     */
-    boolean isBlocked() {
-        SQLiteDatabase db = getDbHelper(mContext).getReadableDatabase();
-
-        String[] columns = {SendersEntry._ID};
-        String selection = SendersEntry.COLUMN_IDENTITY + " = ?";
-        String[] selectionArgs = {mIdentity};
-
-        Cursor cursor = db.query(SendersEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
-        boolean result = cursor.getCount() > 0;
-        cursor.close();
-
-        return result;
+    void delete() {
+        SQLiteDatabase db = getDbHelper(mContext).getWritableDatabase();
+        String[] whereArgs = {String.valueOf(mId)};
+        db.delete(SendersEntry.TABLE_NAME, SendersEntry._ID + " = ?", whereArgs);
     }
 
     /**
@@ -147,6 +128,25 @@ public class Sender {
         } finally {
             cursor.close();
         }
+    }
+
+    /**
+     * Check if sender store in data base for blocking
+     *
+     * @return blocking sign
+     */
+    boolean isBlocked() {
+        SQLiteDatabase db = getDbHelper(mContext).getReadableDatabase();
+
+        String[] columns = {SendersEntry._ID};
+        String selection = SendersEntry.COLUMN_IDENTITY + " = ?";
+        String[] selectionArgs = {mIdentity};
+
+        Cursor cursor = db.query(SendersEntry.TABLE_NAME, columns, selection, selectionArgs, null, null, null);
+        boolean result = cursor.getCount() > 0;
+        cursor.close();
+
+        return result;
     }
 
     /**

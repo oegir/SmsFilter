@@ -1,5 +1,6 @@
 package pw.powerhost.smsfilter.data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -39,13 +40,15 @@ public class SmsDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_CREATE_SENDERS_TABLE);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
 
         if (!db.isReadOnly()) {
-            db.execSQL("PRAGMA foreign_key = 1");
+            db.execSQL("PRAGMA foreign_key = ON");
         }
+        db.setForeignKeyConstraintsEnabled(true);
     }
 
     @Override
